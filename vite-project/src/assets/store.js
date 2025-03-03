@@ -22,13 +22,17 @@ export const listPhotos = defineStore("listPhotos", {
           else
               queryString +="&albumId="+id;
       });
-      console.log("query is "+queryString);
+      
       if(this.length<this.realLength){
       await fetch("https://jsonplaceholder.typicode.com/photos"+queryString).then(
           function(response){
               return response.json()
         }).then(function(data){
           that.realLength = data.length < 31 ? 31 : data.length;
+          if(that.length>that.realLength)
+            that.length = that.realLength;
+          else
+            that.length += 20;
           that.photos = data.slice(0,that.length);
       });
     }

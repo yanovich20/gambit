@@ -89,6 +89,8 @@ function setSortBy(sortObj,callbackAsc,callbackDesc){
     {
         store.photos=store.photos.sort(callbackDesc).slice(0,30);
     }
+    store.length=30;
+    store.realLength=31;
 }
 
 const sortByIdAsc = (d1, d2) => (d1.id >= d2.id) ? 1 : -1
@@ -109,11 +111,10 @@ let isLoading = false;
 async function downloadMore(){
     if(isLoading === true)
         return;
-    if (document.querySelector("div#sfc table").scrollHeight < document.querySelector("div#sfc table").scrollTop + 700) {
+    if (document.querySelector("div#sfc table").scrollHeight < document.querySelector("div#sfc table").scrollTop + 750) {
         isLoading = true;
         const store = listPhotos();
-        store.length += 20;
-        await setTimeout(function(){let counter; counter++},5000);
+        await setTimeout(function(){},500);
         await store.getPhotos();
         await nextTick();
         isLoading = false;
