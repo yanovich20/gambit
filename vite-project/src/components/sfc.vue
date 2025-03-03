@@ -113,6 +113,7 @@ async function downloadMore(){
         return;
     if (document.querySelector("div#sfc table").scrollHeight < document.querySelector("div#sfc table").scrollTop + 750) {
         isLoading = true;
+        document.querySelector("div")
         const store = listPhotos();
         await setTimeout(function(){},500);
         await store.getPhotos();
@@ -128,8 +129,10 @@ async function filter(){
     store.albumIds = albumIds;
     const icon = document.querySelector("img.downloader");
     icon.classList.remove("hidden");
+    document.querySelector("button").disabled = true;
     await store.getPhotos();
     icon.classList.add("hidden");
+    document.querySelector("button").removeAttribute("disabled");
 }
 function showTooltip(event){
     const target = event.target;
@@ -166,7 +169,7 @@ let photos = refs.photos;
     <img class="downloader hidden z-200 absolute top-[275px] left-[275px]" src="/icon.gif">
     <div class="inline-flex">
         <input type="text" class="p-5 mx-auto h-[20px] w-[350px] border-solid border-2 inline-flex" name="albums" @input="verifyInput" placeholder="Введите id">
-        <div class="p-5 h-[40px] border-solid border-2 inline-flex  bg-blue-400 items-center ml-5" @click="filter">Поиск</div>
+        <button class="p-5 h-[40px] border-solid border-2 inline-flex  bg-blue-400 items-center ml-5 disabled:opacity-50" @click="filter">Поиск</button>
     </div>
   <table class="block max-w-[600px] mx-auto max-h-[600px] overflow-y-scroll"   @scroll="downloadMore">
         <thead>
@@ -212,3 +215,6 @@ let photos = refs.photos;
     </table>
     </div>
     </template>
+    <style>
+    @import "tailwindcss";
+    </style>
